@@ -1,5 +1,6 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -8,6 +9,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | This file lets you define "hooks" to extend CI without hacking the core
 | files.  Please see the user guide for info:
 |
-|	https://codeigniter.com/user_guide/general/hooks.html
+|   http://codeigniter.com/user_guide/general/hooks.html
 |
 */
+
+/**
+ * @since  2.3.0
+ * Moved here from hooks_helper.php that was included in config.php because some users config.php file permissions are incorrect.
+ * NEW Global hooks function
+ * This function must be used for all hooks
+ * @return object|Hooks Hooks instance
+ */
+function hooks()
+{
+    global $hooks;
+
+    return $hooks;
+}
+
+$hook['pre_system'][] = [
+        'class'    => 'EnhanceSecurity',
+        'function' => 'protect',
+        'filename' => 'EnhanceSecurity.php',
+        'filepath' => 'hooks',
+        'params'   => [],
+];
+
+$hook['pre_system'][] = [
+        'class'    => 'App_Autoloader',
+        'function' => 'register',
+        'filename' => 'App_Autoloader.php',
+        'filepath' => 'hooks',
+        'params'   => [],
+];
+
+$hook['pre_system'][] = [
+        'class'    => 'InitModules',
+        'function' => 'handle',
+        'filename' => 'InitModules.php',
+        'filepath' => 'hooks',
+        'params'   => [],
+];
+
+$hook['pre_controller_constructor'][] = [
+        'class'    => '',
+        'function' => '_app_init',
+        'filename' => 'InitHook.php',
+        'filepath' => 'hooks',
+];
+
+if (file_exists(APPPATH . 'config/my_hooks.php')) {
+    include_once(APPPATH . 'config/my_hooks.php');
+}
