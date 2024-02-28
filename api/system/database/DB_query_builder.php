@@ -672,6 +672,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
+
 			$prefix = (count($this->$qb_key) === 0 && count($this->$qb_cache_key) === 0)
 				? $this->_group_get_type('')
 				: $this->_group_get_type($type);
